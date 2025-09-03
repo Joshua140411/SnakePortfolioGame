@@ -1,19 +1,29 @@
 package com.SnakeGame;
 
+import lombok.Getter;
+import lombok.Setter;
 import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
 
+@Getter
+@Setter
 public class GamePanel extends JPanel {
 
     // Window preferences
-    private final int TILE_SIZE = 20;
+    static final int TILE_SIZE = 20;
     private final int WIDTH = 800;
     private final int HEIGHT = 600;
+    private final int DELAY = 100;
 
     // Game utilities
-    private final ArrayList<Point> snake;
+    ArrayList<Point> snake;
     private Point head;
+    private char direction = 'R';
+
+    // Game logic
+    boolean running;
+    Timer gameTimer;
 
     public GamePanel() {
         // Window preferences
@@ -25,6 +35,13 @@ public class GamePanel extends JPanel {
         snake = new ArrayList<>();
         head = new Point(WIDTH / 2, HEIGHT / 2);
         snake.add(head);
+
+        // Game logic
+        running = true;
+        PlayerController playerController = new PlayerController(this);
+        addKeyListener(playerController);
+        gameTimer = new Timer(DELAY, playerController);
+        gameTimer.start();
     }
 
     @Override
