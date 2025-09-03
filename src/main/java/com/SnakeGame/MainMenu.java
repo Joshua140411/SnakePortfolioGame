@@ -5,6 +5,8 @@ import java.awt.*;
 
 public class MainMenu extends JPanel {
 
+    private JLabel scoreLabel;
+
     public MainMenu(Main frame) {
         setLayout(new GridBagLayout());
         setBackground(new Color(30, 30, 30));
@@ -25,9 +27,12 @@ public class MainMenu extends JPanel {
         exitBtn.setForeground(Color.WHITE);
 
         startBtn.addActionListener(e -> frame.startGame());
-        //TODO Neue Seite Credits
-        creditsBtn.addActionListener(null);
+        creditsBtn.addActionListener(e -> frame.showCredits());
         exitBtn.addActionListener(e -> System.exit(0));
+
+        scoreLabel = new JLabel("Gesamtpunkte: 0", SwingConstants.CENTER);
+        scoreLabel.setForeground(Color.WHITE);
+        scoreLabel.setFont(new Font("Arial", Font.PLAIN, 20));
 
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.insets = new Insets(20, 20, 20, 20);
@@ -41,5 +46,11 @@ public class MainMenu extends JPanel {
         add(creditsBtn, gbc);
         gbc.gridy = 3;
         add(exitBtn, gbc);
+        gbc.gridy = 4;
+        add(scoreLabel, gbc);
+    }
+
+    public void updateScoreLabel(int totalScore) {
+        scoreLabel.setText("Gesamtpunkte: " + totalScore);
     }
 }
