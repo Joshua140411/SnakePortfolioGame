@@ -79,12 +79,14 @@ public class PlayerController implements ActionListener, KeyListener {
 
         if (newHead.x < 0 || newHead.y < 0 || newHead.x >= gamePanel.getWIDTH() || newHead.y >= gamePanel.getHEIGHT()) {
             gamePanel.setRunning(false);
+            GameStats.totalScore += gamePanel.getScore();
             return;
         }
 
 
         if (gamePanel.snake.contains(newHead)) {
             gamePanel.setRunning(false);
+            GameStats.totalScore += gamePanel.getScore();
             return;
         }
 
