@@ -1,8 +1,20 @@
 package com.SnakeGame;
 
-class Main {
+import javax.swing.*;
+
+class Main extends JFrame {
+
+    public Main() {
+        setTitle("Snake Game");
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        add(new GamePanel());
+        pack();
+        setLocationRelativeTo(null);
+        setResizable(false);
+        setVisible(true);
+    }
 
     public static void main(String[] args) {
-        System.out.println("Hello World");
+        SwingUtilities.invokeLater(Main::new);
     }
 }
