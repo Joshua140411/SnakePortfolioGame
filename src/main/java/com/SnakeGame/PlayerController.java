@@ -16,7 +16,7 @@ public class PlayerController implements ActionListener, KeyListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        if (gamePanel.running) {
+        if (gamePanel.isRunning()) {
             move();
         }
         gamePanel.repaint();
@@ -59,7 +59,9 @@ public class PlayerController implements ActionListener, KeyListener {
     }
 
     private void move() {
-        Point newHead = gamePanel.getHead();
+        Point head = gamePanel.snake.getFirst();
+        Point newHead = new Point(head);
+
         switch (gamePanel.getDirection()) {
             case 'U':
                 newHead.y -= GamePanel.TILE_SIZE;
@@ -73,6 +75,27 @@ public class PlayerController implements ActionListener, KeyListener {
             case 'R':
                 newHead.x += GamePanel.TILE_SIZE;
                 break;
+        }
+
+        if (newHead.x < 0 || newHead.y < 0 || newHead.x >= gamePanel.getWIDTH() || newHead.y >= gamePanel.getHEIGHT()) {
+            gamePanel.setRunning(false);
+            return;
+        }
+
+
+        if (gamePanel.snake.contains(newHead)) {
+            gamePanel.setRunning(false);
+            return;
+        }
+
+
+        if (newHead.equals(gamePanel.getApple())) {
+            gamePanel.snake.addFirst(newHead);
+            gamePanel.setScore(gamePanel.getScore() + 1);
+            gamePanel.spawnApple();
+        } else {
+            gamePanel.snake.addFirst(newHead);
+            gamePanel.snake.removeLast();
         }
     }
 }
