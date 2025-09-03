@@ -11,11 +11,16 @@ import java.util.Random;
 @Setter
 public class GamePanel extends JPanel {
 
+    Main frame;
+
     // Window preferences
     static final int TILE_SIZE = 20;
     private final int WIDTH = 800;
     private final int HEIGHT = 600;
     private final int DELAY = 100;
+
+    // Buttons
+    JButton menuBtn, restartBtn;
 
     // Game utilities
     ArrayList<Point> snake;
@@ -29,7 +34,9 @@ public class GamePanel extends JPanel {
     private Random random;
     private int score = 0;
 
-    public GamePanel() {
+    public GamePanel(Main frame) {
+        this.frame = frame;
+
         // Window preferences
         setPreferredSize(new Dimension(WIDTH, HEIGHT));
         setBackground(Color.white);
@@ -48,6 +55,24 @@ public class GamePanel extends JPanel {
         addKeyListener(playerController);
         gameTimer = new Timer(DELAY, playerController);
         gameTimer.start();
+
+        // Button
+        menuBtn = new JButton("Zurück zum Menü");
+        restartBtn = new JButton("Erneut Starten");
+        menuBtn.setBackground(Color.YELLOW);
+        restartBtn.setBackground(Color.GREEN);
+        menuBtn.setForeground(Color.BLACK);
+        restartBtn.setForeground(Color.BLACK);
+        menuBtn.setVisible(false);
+        restartBtn.setVisible(false);
+        menuBtn.addActionListener(e -> {
+            frame.showMenu();
+            frame.pack();
+            frame.setLocationRelativeTo(null);
+        });
+        restartBtn.addActionListener(e -> frame.startGame());
+        add(menuBtn);
+        add(restartBtn);
     }
 
     @Override
@@ -70,9 +95,13 @@ public class GamePanel extends JPanel {
             FontMetrics metrics = getFontMetrics(g.getFont());
             String msg = "Game Over";
             g.drawString(msg, (WIDTH - metrics.stringWidth(msg)) / 2, HEIGHT / 2);
+
             g.setFont(new Font("Arial", Font.PLAIN, 20));
             String scoreMsg = "Final Score: " + score;
             g.drawString(scoreMsg, (WIDTH - getFontMetrics(g.getFont()).stringWidth(scoreMsg)) / 2, HEIGHT / 2 + 40);
+
+            menuBtn.setVisible(true);
+            restartBtn.setVisible(true);
         }
     }
 
