@@ -5,9 +5,12 @@ import java.awt.*;
 
 public class MainMenu extends JPanel {
 
+    private final int WIDTH = 800;
+    private final int HEIGHT = 600;
     private JLabel scoreLabel;
 
     public MainMenu(Main frame) {
+        setPreferredSize(new Dimension(WIDTH, HEIGHT));
         setLayout(new GridBagLayout());
         setBackground(new Color(30, 30, 30));
 
